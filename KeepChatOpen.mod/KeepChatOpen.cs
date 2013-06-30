@@ -8,15 +8,10 @@ using ScrollsModLoader.Interfaces;
 using UnityEngine;
 using Mono.Cecil;
 
-// FIXME check existence of methods, private variables etc and fail gracefully!
-
 namespace KeepChatOpen.mod {
     public class KeepChatOpen : BaseMod {
-        private bool debug = false;
-
         public KeepChatOpen() {
         }
-
 
         public static string GetName() {
             return "KeepChatOpen";
