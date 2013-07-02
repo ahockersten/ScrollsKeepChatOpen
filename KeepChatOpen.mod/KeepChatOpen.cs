@@ -18,7 +18,7 @@ namespace KeepChatOpen.mod {
         }
 
         public static int GetVersion() {
-            return 1;
+            return 2;
         }
 
         public static MethodDefinition[] GetHooks(TypeDefinitionCollection scrollsTypes, int version) {
@@ -28,7 +28,6 @@ namespace KeepChatOpen.mod {
                 };
             }
             catch {
-                Console.WriteLine("KeepChatOpen failed to connect to methods used.");
                 return new MethodDefinition[] { };
             }
         }
