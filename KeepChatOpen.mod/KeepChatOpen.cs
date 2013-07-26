@@ -18,7 +18,7 @@ namespace KeepChatOpen.mod {
         }
 
         public static int GetVersion() {
-            return 2;
+            return 3;
         }
 
         public static MethodDefinition[] GetHooks(TypeDefinitionCollection scrollsTypes, int version) {
@@ -32,12 +32,10 @@ namespace KeepChatOpen.mod {
             }
         }
 
-
-        public override bool BeforeInvoke(InvocationInfo info, out object returnValue) {
-            returnValue = null;
+        public override bool WantsToReplace(InvocationInfo info) {
             if (info.target is ChatUI && info.targetMethod.Equals("Show")) {
                 foreach (StackFrame frame in info.stackTrace.GetFrames()) {
-                    // Disallow all except for:
+                    // Replace all except for:
                     // ChatUI.OnGUI() - this gets called when the user clicks the open/close button
                     // Lobby.Start() - this gets called when the user moves to the "arena" tab
                     if ((frame.GetMethod().ReflectedType.Equals(typeof(ChatUI)) && frame.GetMethod().Name.Contains("OnGUI")) ||
@@ -45,13 +43,19 @@ namespace KeepChatOpen.mod {
                         return false;
                     }
                 }
-                return true;
             }
-            return false;
+            return true;
+        }
+
+        // replace with a noop
+        public override void ReplaceMethod(InvocationInfo info, out object returnValue) {
+            returnValue = null;
+        }
+
+        public override void BeforeInvoke(InvocationInfo info) {
         }
 
         public override void AfterInvoke(InvocationInfo info, ref object returnValue) {
-            return;
         }
     }
 }
